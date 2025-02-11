@@ -19,7 +19,7 @@ type RouteCallback = ({
 }: {
   params: any;
   query: any;
-}) => Promise<Response>;
+}) => Response | string | object;
 
 // Объект с информацией о маршруте
 type Route = {
@@ -27,6 +27,7 @@ type Route = {
   path: string;
   pattern: RegExp;
   callback: RouteCallback;
+  response: Response;
 };
 
 // Класс Router
@@ -62,6 +63,7 @@ class Router {
       path,
       callback,
       pattern: new RegExp(path.replace(/:(\w+)/g, '(?<$1>[a-zA-Z0-9-_]+)')),
+      response: this.send404(),
     });
   }
 
@@ -106,27 +108,24 @@ class Router {
         const { method } = request;
         const { pathname, searchParams } = new URL(request.url);
 
-        for (const route of this._routes) {
-          if (route.method === method) {
-            if (route.path.includes(':')) {
-              const matches = route.pattern.exec(pathname);
-              if (matches) {
-                const result = await route.callback({
-                  params: matches?.groups,
-                  query: searchParams,
-                });
-                return this.sendResponse(result);
-              }
-            } else if (route.path === pathname) {
-              const result = await route.callback({
-                params: {},
-                query: searchParams,
-              });
-              return this.sendResponse(result);
-            }
-          }
+        // Поиск маршрута
+        const route: Route | undefined = this._routes.find((route) =>
+          route.method === method && route.path.includes(':')
+            ? route.pattern.test(pathname)
+            : route.path === pathname
+        );
+
+        // Отправка ответа
+        if (route) {
+          return this.sendResponse(
+            route.callback({
+              params: route.pattern.exec(pathname)?.groups,
+              query: searchParams,
+            })
+          );
         }
 
+        // Если маршрут не найден
         return this.send404();
       },
     });
@@ -142,15 +141,17 @@ class Router {
    * Если ответ является объектом, он преобразуется в JSON и отправляется с соответствующим заголовком.
    * В противном случае возвращается сообщение об ошибке с кодом состояния 405.
    *
-   * @param {any} response Ответ, который нужно отправить.
+   * @param {Response | string | object} response Ответ, который нужно отправить.
    * @returns {Response} Объект ответа для клиента.
    */
 
-  private sendResponse(response: any): Response {
+  private sendResponse(response: Response | string | object): Response {
     if (response instanceof Response) {
       return response;
     } else if (typeof response === 'string') {
-      return new Response(response);
+      return new Response(response, {
+        headers: { 'Content-Type': 'text/html;charset=utf-8' },
+      });
     } else if (typeof response === 'object') {
       return new Response(JSON.stringify(response), {
         headers: { 'Content-Type': 'application/json' },
@@ -160,9 +161,26 @@ class Router {
     }
   }
 
-  send404() {
+  /**
+   * Отправляет ответ клиенту с кодом состояния 404.
+   *
+   * @returns {Response} Объект ответа с кодом состояния 404.
+   */
+  send404(): Response {
     return new Response(JSON.stringify({ error: 'Not found!' }), {
       status: 404,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  /**
+   * Отправляет ответ клиенту с кодом состояния 502.
+   *
+   * @returns {Response} Объект ответа с кодом состояния 502.
+   */
+  send502(): Response {
+    return new Response(JSON.stringify({ error: 'Error on server!' }), {
+      status: 502,
       headers: { 'Content-Type': 'application/json' },
     });
   }
