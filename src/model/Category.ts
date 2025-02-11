@@ -54,7 +54,6 @@ class Category {
    * @returns {string} Дата обновления категории
    * @readonly
    */
-
   public get updatedAt(): string {
     return this._updatedAt;
   }
