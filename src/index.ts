@@ -6,9 +6,8 @@ const database: Database = new Database();
 
 new Router()
   .get('/', () => 'main')
-  .get('/categories/:id', async ({ params, query }: any) => {
-    return query;
-    // return await new CategoryController(database).getOne(Number(params.id));
+  .get('/categories/:id', async ({ params }: any) => {
+    return await new CategoryController(database).getOne(Number(params.id));
   })
   .get('/categories', async () => {
     return await new CategoryController(database).getAll(10, 0);

@@ -23,7 +23,12 @@ class CategoryController extends Controller {
    */
   public async getOne(id: number): Promise<Category> {
     const query = `
-      SELECT id, title, description, parent_id, created_at, updated_at
+      SELECT 
+        id,
+        title,
+        description,
+        created_at,
+        updated_at
       FROM category
       WHERE id = ?
       LIMIT 1
@@ -46,7 +51,13 @@ class CategoryController extends Controller {
    */
   public async getAll(limit: number, offset: number): Promise<Category[]> {
     const query = `
-      SELECT id, title, description, parent_id, created_at, updated_at
+      SELECT 
+        id,
+        title,
+        link,
+        description,
+        created_at,
+        updated_at
       FROM category
       LIMIT ?
       OFFSET ?

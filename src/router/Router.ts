@@ -176,11 +176,17 @@ class Router {
       return response;
     } else if (typeof response === 'string') {
       return new Response(response, {
-        headers: { 'Content-Type': 'text/html;charset=utf-8' },
+        headers: {
+          'Content-Type': 'text/html;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+        },
       });
     } else if (typeof response === 'object') {
       return new Response(JSON.stringify(response), {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
       });
     } else {
       return this.send404();

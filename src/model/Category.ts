@@ -9,7 +9,6 @@ class Category {
   private readonly _id: number;
   private readonly _title: string;
   private readonly _description: string;
-  private readonly _parentId: number;
   private readonly _createdAt: string;
   private readonly _updatedAt: string;
 
@@ -34,7 +33,6 @@ class Category {
     this._id = id;
     this._title = title;
     this._description = description;
-    this._parentId = parentId;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
@@ -61,14 +59,6 @@ class Category {
    */
   public get description(): string {
     return this._description;
-  }
-
-  /**
-   * @returns {number} Идентификатор родительской категории. 0, если категория является корневой.
-   * @readonly
-   */
-  public get parentId(): number {
-    return this._parentId;
   }
 
   /**
