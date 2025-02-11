@@ -26,7 +26,6 @@ class Category {
     id: number,
     title: string,
     description: string,
-    parentId: number,
     createdAt: string,
     updatedAt: string
   ) {
