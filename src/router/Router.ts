@@ -109,10 +109,12 @@ class Router {
         const { pathname, searchParams } = new URL(request.url);
 
         // Поиск маршрута
-        const route: Route | undefined = this._routes.find((route) =>
-          route.method === method && route.path.includes(':')
-            ? route.pattern.test(pathname)
-            : route.path === pathname
+        const route: Route | undefined = this._routes.find(
+          (route) =>
+            route.method === method &&
+            (route.path.includes(':')
+              ? route.pattern.test(pathname)
+              : route.path === pathname)
         );
 
         // Отправка ответа
