@@ -25,6 +25,10 @@ class CompanyController extends Controller {
       SELECT 
         id,
         title,
+        description,
+        link,
+        logo,
+        category_id,
         created_at,
         updated_at
       FROM company
@@ -48,6 +52,7 @@ class CompanyController extends Controller {
    *                                  будет получен список объектов компаний
    */
   public async getAll(
+    categoryId: number = 0,
     limit: number = 10,
     offset: number = 0
   ): Promise<Company[]> {
@@ -59,11 +64,13 @@ class CompanyController extends Controller {
         created_at,
         updated_at
       FROM company
+      WHERE category_id = ?
       LIMIT ?
       OFFSET ?
     `;
 
     const rows: Company[] = (await this._database.query(query, [
+      categoryId,
       limit,
       offset,
     ])) as Company[];
