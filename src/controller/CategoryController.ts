@@ -47,7 +47,10 @@ class CategoryController extends Controller {
    * @returns {Promise<Category[]>} - Обещание, которое будет выполнено, когда
    *                                  будет получен список объектов категорий
    */
-  public async getAll(limit: number, offset: number): Promise<Category[]> {
+  public async getAll(
+    limit: number = 10,
+    offset: number = 0
+  ): Promise<Category[]> {
     const query = `
       SELECT 
         id,
