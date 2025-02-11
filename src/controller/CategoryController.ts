@@ -17,11 +17,10 @@ class CategoryController extends Controller {
   /**
    * Получение одной категории
    *
-   * @param {number} id - Идентификатор категории
-   * @returns {Promise<Category>} - Обещание, которое будет выполнено, когда
-   *                                будет получен объект категории
+   * @param {string} link Идентификатор категории
+   * @returns {Promise<Category>} Обещание, которое будет выполнено, когда будет получен объект категории
    */
-  public async getOne(id: number): Promise<Category> {
+  public async getOne(link: string): Promise<Category> {
     const query = `
       SELECT 
         id,
@@ -30,12 +29,12 @@ class CategoryController extends Controller {
         created_at,
         updated_at
       FROM category
-      WHERE id = ?
+      WHERE link = ?
       LIMIT 1
     `;
 
     const rows: Category[] = (await this._database.query(query, [
-      id,
+      link,
     ])) as Category[];
 
     return rows[0];
