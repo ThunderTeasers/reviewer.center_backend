@@ -27,7 +27,6 @@ type Route = {
   path: string;
   pattern: RegExp;
   callback: RouteCallback;
-  response: Response;
 };
 
 // Класс Router
@@ -67,7 +66,6 @@ class Router {
       path,
       callback,
       pattern: new RegExp(path.replace(/:(\w+)/g, '(?<$1>[a-zA-Z0-9-_]+)')),
-      response: this.send404(),
     });
   }
 
