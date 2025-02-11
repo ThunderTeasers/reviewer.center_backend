@@ -19,7 +19,7 @@ type RouteCallback = ({
 }: {
   params: any;
   query: any;
-}) => Response | string | object;
+}) => Response | string | object | Promise<Response | string | object>;
 
 // Объект с информацией о маршруте
 type Route = {
@@ -125,7 +125,7 @@ class Router {
         // Отправка ответа
         if (route) {
           return this.sendResponse(
-            route.callback({
+            await route.callback({
               params: route.pattern.exec(pathname)?.groups,
               query: searchParams,
             })
