@@ -35,6 +35,9 @@ class Router {
   // Массив маршрутов
   private readonly _routes: Route[];
 
+  // Куки
+  private _cookies: Record<string, string>;
+
   /**
    * Конструктор
    *
@@ -42,6 +45,7 @@ class Router {
    */
   constructor() {
     this._routes = [];
+    this._cookies = {};
   }
 
   /**
@@ -105,8 +109,11 @@ class Router {
     serve({
       port: 3000,
       fetch: async (request: Request) => {
-        const { method } = request;
+        const { method, headers } = request;
         const { pathname, searchParams } = new URL(request.url);
+
+        // Парсинг куки
+        this.parseCookie(headers.get('cookie'));
 
         // Поиск маршрута
         const route: Route | undefined = this._routes.find(
@@ -133,6 +140,25 @@ class Router {
     });
 
     console.log(`Listening on http://localhost:${port}...`);
+  }
+
+  /**
+   * Парсит строку Cookie в объект
+   *
+   * @example
+   * const cookie = 'name=Max;age=25';
+   * const parsed = parseCookie(cookie);
+   * console.log(parsed); // { name: 'Max', age: '25' }
+   *
+   * @param {string} cookie Строка Cookie
+   */
+  private parseCookie(cookie: string | null): void {
+    if (!cookie) return;
+
+    cookie.split(';').forEach((part) => {
+      const { 0: key, 1: value } = part.split('=');
+      this._cookies[key.trim()] = decodeURIComponent(value.trim());
+    });
   }
 
   /**
