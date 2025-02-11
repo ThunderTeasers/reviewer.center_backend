@@ -8,7 +8,6 @@
 class Category {
   private readonly _id: number;
   private readonly _title: string;
-  private readonly _description: string;
   private readonly _createdAt: string;
   private readonly _updatedAt: string;
 
@@ -17,21 +16,12 @@ class Category {
    *
    * @param id Идентификатор категории
    * @param title Название категории
-   * @param description Описание категории
-   * @param parentId Идентификатор родительской категории
    * @param createdAt Дата создания категории
    * @param updatedAt Дата обновления категории
    */
-  constructor(
-    id: number,
-    title: string,
-    description: string,
-    createdAt: string,
-    updatedAt: string
-  ) {
+  constructor(id: number, title: string, createdAt: string, updatedAt: string) {
     this._id = id;
     this._title = title;
-    this._description = description;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
@@ -50,14 +40,6 @@ class Category {
    */
   public get title(): string {
     return this._title;
-  }
-
-  /**
-   * @returns {string} Описание категории
-   * @readonly
-   */
-  public get description(): string {
-    return this._description;
   }
 
   /**

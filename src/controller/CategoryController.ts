@@ -25,7 +25,6 @@ class CategoryController extends Controller {
       SELECT 
         id,
         title,
-        description,
         created_at,
         updated_at
       FROM category
@@ -54,7 +53,6 @@ class CategoryController extends Controller {
         id,
         title,
         link,
-        description,
         created_at,
         updated_at
       FROM category
