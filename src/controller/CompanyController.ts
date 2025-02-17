@@ -61,6 +61,8 @@ class CompanyController extends Controller {
         id,
         title,
         link,
+        CONCAT('https://static.reviewer.center', logo) AS logo,
+        logo_full,
         created_at,
         updated_at
       FROM company
