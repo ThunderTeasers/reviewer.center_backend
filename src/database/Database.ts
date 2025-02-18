@@ -38,6 +38,7 @@ class Database {
       queueLimit: 0,
       enableKeepAlive: true,
       keepAliveInitialDelay: 0,
+      decimalNumbers: true,
     });
   }
 
