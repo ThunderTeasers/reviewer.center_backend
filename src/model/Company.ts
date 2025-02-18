@@ -19,15 +19,15 @@ class Company {
   /**
    * @constructor
    *
-   * @param id Идентификатор компании
-   * @param title Название категории
-   * @param description Описание компании
-   * @param link Ссылка на компанию
-   * @param logo Логотип компании
-   * @param logo_full Растянут ли логотип в карточке компании
+   * @param id Идентификатор
+   * @param title Название
+   * @param description Описание
+   * @param link Ссылка
+   * @param logo Логотип
+   * @param logo_full Растянут ли логотип в карточке
    * @param categoryId Идентификатор категории
-   * @param createdAt Дата создания компании
-   * @param updatedAt Дата обновления компании
+   * @param createdAt Дата создания
+   * @param updatedAt Дата обновления
    */
   constructor(
     id: number = 0,

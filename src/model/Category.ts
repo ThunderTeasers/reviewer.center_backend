@@ -15,11 +15,11 @@ class Category {
   /**
    * @constructor
    *
-   * @param id Идентификатор категории
-   * @param title Название категории
-   * @param link Ссылка на категорию
-   * @param createdAt Дата создания категории
-   * @param updatedAt Дата обновления категории
+   * @param id Идентификатор
+   * @param title Название
+   * @param link Ссылка
+   * @param createdAt Дата создания
+   * @param updatedAt Дата обновления
    */
   constructor(
     id: number = 0,
