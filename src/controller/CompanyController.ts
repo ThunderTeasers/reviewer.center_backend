@@ -64,7 +64,8 @@ class CompanyController extends Controller {
         CONCAT('https://static.reviewer.center', logo) AS logo,
         logo_full,
         created_at,
-        updated_at
+        updated_at,
+        (SELECT ROUND(AVG(rating), 2) FROM rating WHERE company_id = company.id) AS rating
       FROM company
       WHERE category_id = ?
       LIMIT ?
